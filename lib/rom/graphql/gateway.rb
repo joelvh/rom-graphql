@@ -22,7 +22,7 @@ module ROM
 
       def query(query, root_element, args = {})
         response = @connection.query(query, args)
-        raise response.errors.inspect if response.errors
+        raise response.errors.inspect if response.errors.any?
 
         data = response.data.to_h
                        .deep_transform_keys(&:underscore)

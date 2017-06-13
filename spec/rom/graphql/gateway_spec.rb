@@ -7,7 +7,7 @@ RSpec.describe ROM::GraphQL::Gateway do
     subject { described_class.new('STUB URI').query(query, root_element) }
 
     let(:query) { 'Test query' }
-    let(:errors) { nil }
+    let(:errors) { instance_double GraphQL::Client::Errors, any?: false }
     let(:response) { [] }
     let(:root_element) {}
     let(:connection) { instance_double(::GraphQL::Client) }

@@ -25,15 +25,16 @@ module ROM
         @queries ||= {}
         @queries[name] = query_string
 
-        root_element_str = root_element ? "'#{root_element}'" : 'nil'
-        class_eval <<-METHOD
-          def #{name}(#{params.join(', ')})
-            query = #{name.upcase}
-            query_vars = { #{params.map { |var| "#{var}: #{var}" }.join(', ')}}
-            values = dataset.query(query,  #{root_element_str}, {variables: query_vars})
-            self.new(values)
+        class_eval do
+          define_method name do |*args|
+            raise ArgumentError, "expected #{params.length} arguments, got #{args.length}" unless args.length == params.length
+            query = self.class.const_get(name.upcase)
+            query_vars = Hash[*params.zip(args).flatten]
+           
+            values = dataset.query(query,  root_element, {variables: query_vars})
+            self.new(values)            
           end
-        METHOD
+        end
       end
 
       def self.fragment(name, query_string)

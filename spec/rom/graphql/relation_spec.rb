@@ -4,11 +4,11 @@ require 'spec_helper'
 
 RSpec.describe ROM::GraphQL::Relation do
   subject do
-    class TestRelation < ROM::GraphQL::Relation
+    klass = Class.new(ROM::GraphQL::Relation) do
       query :test_query, [:one_argument], nil, 'CRAZY STRING'
     end
 
-    TestRelation.new(dataset)
+    klass.new(dataset)
   end
 
   let(:dataset) { instance_double(ROM::GraphQL::Gateway) }

@@ -1,0 +1,13 @@
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.4
+
+Metrics/LineLength:
+  Max: 140
+
+Style/Documentation:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
